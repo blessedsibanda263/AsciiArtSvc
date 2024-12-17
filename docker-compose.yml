@@ -1,0 +1,6 @@
+﻿services:
+  asciiartsvc:
+    image: asciiartsvc
+    build:
+      context: .
+      dockerfile: AsciiArtSvc/Dockerfile
