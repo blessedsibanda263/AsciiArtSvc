@@ -10,15 +10,18 @@ public static class AsciiArt
         FiggleFont? font = null;
         if (!string.IsNullOrWhiteSpace(fontName))
         {
-            font = typeof(FiggleFonts)
-                .GetProperty(fontName, BindingFlags.Static | BindingFlags.Public)?
-                .GetValue(null) as FiggleFont;
+            font =
+                typeof(FiggleFonts)
+                    .GetProperty(fontName, BindingFlags.Static | BindingFlags.Public)
+                    ?.GetValue(null) as FiggleFont;
         }
         font ??= FiggleFonts.Standard;
         return font.Render(text);
     }
 
-    public static Lazy<IEnumerable<string>> AllFonts =
-        new(() => from p in typeof(FiggleFonts)
-            .GetProperties(BindingFlags.Static | BindingFlags.Public) select p.Name);
+    public static Lazy<IEnumerable<(string Name, FiggleFont Font)>> AllFonts = new(
+        () =>
+            from p in typeof(FiggleFonts).GetProperties(BindingFlags.Static | BindingFlags.Public)
+            select (Name: p.Name, Font: (p.GetValue(null) as FiggleFont))
+    );
 }
