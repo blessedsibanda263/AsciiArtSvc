@@ -17,4 +17,8 @@ public static class AsciiArt
         font ??= FiggleFonts.Standard;
         return font.Render(text);
     }
+
+    public static Lazy<IEnumerable<string>> AllFonts =
+        new(() => from p in typeof(FiggleFonts)
+            .GetProperties(BindingFlags.Static | BindingFlags.Public) select p.Name);
 }
